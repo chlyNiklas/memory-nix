@@ -3,6 +3,8 @@
 {
   imports = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
+    inputs.nixvim.homeManagerModules.nixvim
+
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -21,28 +23,20 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello 
-    (pkgs.writeShellScriptBin "init-memory" ''
-      #!/bin/sh
-      mkdir memory
-      cd memory
-      curl -s https://api.github.com/repos/chlyNiklas/memory/releases/latest | grep "browser_download_url.*pdf" | cut -d : -f 2,3 | tr -d \" | wget -qi -
-    '')
-    
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
     # # environment:
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+
+      (pkgs.writeShellScriptBin "init-memory" ''
+      #!/bin/sh
+      mkdir memory
+      cd memory
+      curl -s https://api.github.com/repos/chlyNiklas/memory/releases/latest | grep "browser_download_url.*pdf" | cut -d : -f 2,3 | tr -d \" | wget -qi -
+    '')
+    
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -76,7 +70,7 @@
   #  /etc/profiles/per-user/user/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "nvim";
   };
 
   programs.plasma = {
@@ -85,6 +79,57 @@
     workspace = {
       theme = "breeze-dark";
     };
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableAutosuggestions = true;
+    syntaxHighlighting.enable = true;
+  
+    shellAliases = {
+      ll = "ls -l";
+      vim = "nvim";
+      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#default";
+    };
+
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" "thefuck" ];
+      theme = "agnoster";
+    };
+
+    history.size = 10000;
+    history.path = "${config.xdg.dataHome}/zsh/history";
+  };
+
+  programs.nixvim = {
+    enable = true;
+
+    options = {
+      number = true;         # Show line numbers
+      relativenumber = true; # Show relative line numbers
+
+      shiftwidth = 2;        # Tab width should be 2
+      
+    };
+    
+    plugins.lsp = {
+      enable = true;
+      servers = {
+	tsserver.enable = true;
+	lua-ls.enable = true;
+	html.enable = true;
+	cssls.enable = true;
+      	nixd = {
+          enable = true;
+	  autostart = true;
+	};
+      };
+    };
+
+    colorschemes.gruvbox.enable = true;
+    plugins.lightline.enable = true;
   };
 
 

@@ -40,9 +40,9 @@
   services.xserver.desktopManager.plasma5.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "ch";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Configure console keymap
@@ -78,17 +78,35 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  programs.zsh.enable = true;
+
   users.users.user = {
     isNormalUser = true;
     description = "user";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+
+      # Web
       firefox
       kate
-      vscode
       brave
+
+      # Development
+      vscode
+      python3
+      rustc
+      cargo
+      go
+      thefuck
+
+      # Graphics
+      krita
+      gimp
+
     #  thunderbird
     ];
+    shell = pkgs.zsh;
+    useDefaultShell = true;
   };
 
   home-manager = {
@@ -140,5 +158,6 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
+
 
 }
