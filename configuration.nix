@@ -92,7 +92,12 @@
       brave
 
       # Development
+      
+      ## Editors
       vscode
+      jetbrains.webstorm
+      jetbrains.idea-community-bin
+
       python3
       rustc
       cargo
