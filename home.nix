@@ -32,8 +32,8 @@
 
       (pkgs.writeShellScriptBin "init-memory" ''
       #!/bin/sh
-      mkdir memory
-      cd memory
+      mkdir -p memory/anleitungen
+      cd memory/anleitungen
       curl -s https://api.github.com/repos/chlyNiklas/memory/releases/latest | grep "browser_download_url.*pdf" | cut -d : -f 2,3 | tr -d \" | wget -qi -
     '')
     
@@ -128,8 +128,42 @@
       };
     };
 
+    plugins = {
+      nvim-cmp = {
+	enable = true;
+	completion.autocomplete = [ "TextChanged" ];
+	sources = [
+	  { name = "nvim_lsp"; }
+	  { name = "path"; }
+	  { name = "buffer"; }
+	];
+	mapping = {
+	  "<C-Space>" = "cmp.mapping.complete()";
+	  "<C-d>" = "cmp.mapping.scroll_docs(-4)";
+	  "<C-e>" = "cmp.mapping.close()";
+	  "<C-f>" = "cmp.mapping.scroll_docs(4)";
+	  "<CR>" = "cmp.mapping.confirm({ select = true })";
+	  "<S-Tab>" = {
+	    action = "cmp.mapping.select_prev_item()";
+	    modes = [
+	      "i"
+	      "s"
+	    ];
+	  };
+	  "<Tab>" = {
+	    action = "cmp.mapping.select_next_item()";
+	    modes = [
+	      "i"
+	      "s"
+	    ];
+	  };
+	};
+      };
+      autoclose.enable = true;
+      lightline.enable = true;
+    };
+
     colorschemes.gruvbox.enable = true;
-    plugins.lightline.enable = true;
   };
 
 
