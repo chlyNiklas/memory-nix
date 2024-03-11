@@ -88,27 +88,21 @@
 
       # Web
       firefox
-      kate
       brave
 
-      # Development
-      
-      ## Editors
+      lunarvim
+      # Editors
       vscode
       jetbrains.webstorm
       jetbrains.idea-community-bin
+      libreoffice
+      onlyoffice-bin
 
-      python3
-      rustc
-      cargo
-      go
-      thefuck
-
-      # Graphics
+      # Multi Media
       krita
+      inkscape
       gimp
-
-    #  thunderbird
+      vlc
     ];
     shell = pkgs.zsh;
     useDefaultShell = true;
@@ -135,6 +129,21 @@
     neovim
     wget
     git
+    htop
+    screen
+    ffmpeg
+    tree
+    neofetch
+
+    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+
+
+    python3
+    rustc
+    cargo
+    go
+    thefuck
+
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

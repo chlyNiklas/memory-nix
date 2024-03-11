@@ -75,9 +75,12 @@
 
   programs.plasma = {
 
-    # Enable dark mode 
     workspace = {
+
+      # Enable dark mode 
+      lookAndFeel = "org.kde.breezedark.desktop";
       theme = "breeze-dark";
+      colorScheme = "BreezeDark";
     };
   };
 
@@ -97,7 +100,10 @@
       enable = true;
       plugins = [ "git" "thefuck" ];
       theme = "agnoster";
+
     };
+
+    initExtra = "neofetch";
 
     history.size = 10000;
     history.path = "${config.xdg.dataHome}/zsh/history";
@@ -160,10 +166,16 @@
 	};
       };
       autoclose.enable = true;
-      lightline.enable = true;
+      rainbow-delimiters.enable = true;
+      treesitter.enable = true;      lualine.enable = true;
     };
 
-    colorschemes.gruvbox.enable = true;
+    clipboard = {
+      register = "unnamedplus";
+      providers.xclip.enable = true;
+    };
+
+    colorschemes.tokyonight.enable = true;
   };
 
 
